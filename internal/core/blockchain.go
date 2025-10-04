@@ -5,46 +5,43 @@ import (
 	"encoding/hex"
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/dgraph-io/badger/v4"
 )
 
 type Blockchain struct {
-	Chain      []Block `json:"chain"`
-	Difficulty int     `json:"difficulty"`
+	Difficulty int `json:"difficulty"`
 	DB         *badger.DB
+	LastBlock  *Block
 }
 
 func NewBlockchain(db *badger.DB) *Blockchain {
 	return &Blockchain{
-		Chain:      []Block{},
 		Difficulty: 4,
 		DB:         db,
 	}
 }
 
-func (bc *Blockchain) Init() {
-	tx := Transaction{
-		Hash:      "genesis",
-		From:      "system",
-		To:        "genesis",
-		Amount:    0,
-		Timestamp: time.Now().Unix(),
+func (bc *Blockchain) Init() error {
+	err := bc.DB.Update(func(txn *badger.Txn) error {
+		_, err := txn.Get([]byte("Block:0"))
+		if err != nil {
+			if err.Error() == "ErrKeyNotFound" {
+				transaction := NewTransaction("__system", "__system", 0)
+				bc.LastBlock = NewBlock(1, "0")
+				bc.LastBlock.AddTransaction(transaction)
+				bc.save(txn)
+			} else {
+				return err
+			}
+		}
+		return err
+	})
+	if err != nil {
+		return err
 	}
 
-	block := Block{
-		Index:        0,
-		Timestamp:    time.Now(),
-		Transactions: []Transaction{tx},
-		PrevHash:     "0",
-		Nonce:        0,
-	}
-
-	bc.Chain = append(bc.Chain, block)
-	block.Hash = bc.calculateHash(block)
-
-	bc.saveBlock(genesisBlock)
+	return nil
 }
 
 func (bc *Blockchain) calculateHash(block Block) string {
@@ -56,4 +53,8 @@ func (bc *Blockchain) calculateHash(block Block) string {
 
 	hash := sha256.Sum256([]byte(record))
 	return hex.EncodeToString(hash[:])
+}
+
+func (bc *Blockchain) save(txn *badger.Txn) {
+	txn.Set([]byte(fmt.Sprintf("block:%s", bc.LastBlock.Hash)), []byte(bc.LastBlock.ToJSON()))
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/alireza12prom/SimpleChain/internal/core"
 	"github.com/dgraph-io/badger/v4"
@@ -23,10 +22,11 @@ func main() {
 
 	// Server
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+
+	{
+		g := r.Group("/transaction")
+		g.POST("/new", func(c *gin.Context) {})
+	}
+
 	r.Run()
 }

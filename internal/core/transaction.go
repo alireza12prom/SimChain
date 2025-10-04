@@ -1,17 +1,16 @@
 package core
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/alireza12prom/SimpleChain/internal/utility"
 )
 
 type Transaction struct {
 	Hash      string  `json:"id"`
 	From      string  `json:"from"`
-	Symbol    string  `json:"symbol"`
 	To        string  `json:"to"`
 	Amount    float64 `json:"amount"`
 	Timestamp int64   `json:"timestamp"`
@@ -25,21 +24,13 @@ func NewTransaction(from, to string, amount float64) *Transaction {
 		Timestamp: time.Now().Unix(),
 	}
 
-	tx.Hash = tx.calculateHash()
+	tx.Hash = tx.GetHash()
 	return tx
 }
 
-func (tx *Transaction) calculateHash() string {
-	data := fmt.Sprintf(
-		"%s%s%.8f%.8f%d%d",
-		tx.From,
-		tx.To,
-		tx.Amount,
-		tx.Timestamp,
-	)
-
-	hash := sha256.Sum256([]byte(data))
-	return hex.EncodeToString(hash[:])
+func (block *Transaction) GetHash() string {
+	data, _ := json.Marshal(block)
+	return utility.GetHash(string(data))
 }
 
 func (tx *Transaction) Validate() error {
@@ -49,10 +40,7 @@ func (tx *Transaction) Validate() error {
 	if tx.Amount <= 0 {
 		return fmt.Errorf("amount must be positive")
 	}
-	if tx.Symbol == "" {
-		return fmt.Errorf("symbol cannot be empty")
-	}
-	if tx.Hash != tx.calculateHash() {
+	if tx.Hash != tx.GetHash() {
 		return fmt.Errorf("invalid transaction hash")
 	}
 	return nil
