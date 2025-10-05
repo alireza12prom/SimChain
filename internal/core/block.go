@@ -17,22 +17,35 @@ type Block struct {
 }
 
 func NewBlock(index int, prev_hash string) *Block {
-	return &Block{
+	block := &Block{
 		Index:        index,
 		Timestamp:    time.Now(),
 		Transactions: []*Transaction{},
 		PrevHash:     prev_hash,
 		Nonce:        0,
 	}
+
+	block.Hash = block.GetHash()
+	return block
 }
 
-func (block *Block) GetHash() string {
-	data, _ := json.Marshal(block)
+func (b *Block) GetHash() string {
+	data, _ := json.Marshal(b)
 	return utility.GetHash(string(data))
 }
 
 func (b *Block) AddTransaction(trx *Transaction) {
 	b.Transactions = append(b.Transactions, trx)
+	b.Hash = b.GetHash()
+}
+
+func (b *Block) Size() int {
+	return len(b.Transactions)
+}
+
+func (b *Block) IncreaseNone() {
+	b.Nonce += 1
+	b.Hash = b.GetHash()
 }
 
 func (b *Block) ToJSON() string {
