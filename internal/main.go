@@ -28,16 +28,18 @@ func main() {
 		g := r.Group("/transaction")
 
 		type NewTransactionDto struct {
-			from   string  `json:"form"`
-			to     string  `json:"to"`
-			amount float64 `json:"amount"`
+			From   string  `json:"from" binding:"required"`
+			To     string  `json:"to" binding:"required"`
+			Amount float64 `json:"amount" binding:"required"`
 		}
 
 		g.POST("/new", func(c *gin.Context) {
 			var body NewTransactionDto
-			c.Bind(&body)
+			if err := c.ShouldBindBodyWithJSON(&body); err != nil {
+				c.JSON(400, `invalid input.`)
+			}
 
-			trx := core.NewTransaction(body.from, body.to, body.amount)
+			trx := core.NewTransaction(body.From, body.To, body.Amount)
 			blockchain.AddTransaction(trx)
 
 			c.JSON(200, gin.H{"msg": "transaction added to the pending pool."})
@@ -45,12 +47,16 @@ func main() {
 
 		g.GET("/pending", func(c *gin.Context) {
 			pending := blockchain.GetPendingTransaction()
-
 			c.JSON(200, gin.H{"data": pending, "count": len(pending)})
 		})
 	}
 
 	{
+		r.GET("/history", func(c *gin.Context) {
+			history := blockchain.GetBlocks()
+			c.JSON(200, gin.H{"data": history, "count": len(history)})
+		})
+
 		r.POST("/mine", func(c *gin.Context) {
 			block, err := blockchain.MineBlock()
 			if err != nil {

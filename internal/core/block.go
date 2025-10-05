@@ -52,3 +52,13 @@ func (b *Block) ToJSON() string {
 	value, _ := json.Marshal(b)
 	return string(value[:])
 }
+
+func BlockFromJSON(data []byte) (*Block, error) {
+	block := &Block{}
+
+	if err := json.Unmarshal(data, &block); err != nil {
+		return nil, err
+	}
+
+	return block, nil
+}
