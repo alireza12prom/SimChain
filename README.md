@@ -11,20 +11,32 @@ A fun, simple and educational blockchain project, implemented by Golang, just to
 ## 📁 Directory Structure
 
 ```
+- go.mod
+- go.sum
+- README.md
 - internal
+  - main.go
   - core
     - block.go
     - blockchain.go
     - transaction.go
-  - main.go (start point)
+  - server
+    - server.go
+    - controllers
+      - block.go
+      - transaction.go
+  - utility
+    - hash.go
 ```
 
 ## 🚀 REST APIs
 
-This project exposes a small HTTP API for interacting with the simulated blockchain. Run the server from the repository root:
+This project exposes a small HTTP API for interacting with the simulated blockchain. Run the server from the repository root (or build a binary):
 
 ```powershell
 go run internal/main.go
+# or build then run (Windows PowerShell)
+go build -o simchain ./internal; .\simchain.exe
 ```
 
 Base URL: http://localhost:8080 (default)
