@@ -1,12 +1,12 @@
-package server
+package api
 
 import (
-	"github.com/alireza12prom/SimpleChain/internal/core"
-	"github.com/alireza12prom/SimpleChain/internal/server/controllers"
+	"github.com/alireza12prom/SimpleChain/internal/api/controllers"
+	"github.com/alireza12prom/SimpleChain/internal/domain"
 	"github.com/gin-gonic/gin"
 )
 
-func Run(blockchain *core.Blockchain) {
+func Run(blockchain *domain.Blockchain) {
 	r := gin.Default()
 
 	{

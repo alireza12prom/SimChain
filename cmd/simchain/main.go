@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/alireza12prom/SimpleChain/internal/core"
-	"github.com/alireza12prom/SimpleChain/internal/server"
+	"github.com/alireza12prom/SimpleChain/internal/api"
+	"github.com/alireza12prom/SimpleChain/internal/domain"
 	"github.com/dgraph-io/badger/v4"
 )
 
@@ -17,9 +17,9 @@ func main() {
 	defer db.Close()
 
 	// Blockchain Initialization
-	blockchain := core.NewBlockchain(db)
+	blockchain := domain.NewBlockchain(db)
 	blockchain.Init()
 
 	// Server
-	server.Run(blockchain)
+	api.Run(blockchain)
 }

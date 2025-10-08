@@ -3,12 +3,12 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/alireza12prom/SimpleChain/internal/core"
+	"github.com/alireza12prom/SimpleChain/internal/domain"
 	"github.com/gin-gonic/gin"
 )
 
 type BlockController struct {
-	Blockchain *core.Blockchain
+	Blockchain *domain.Blockchain
 }
 
 func (bc *BlockController) GetHistory(c *gin.Context) {

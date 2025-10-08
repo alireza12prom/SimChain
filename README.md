@@ -11,22 +11,33 @@ A fun, simple and educational blockchain project, implemented by Golang, just to
 ## 📁 Directory Structure
 
 ```
-- go.mod
-- go.sum
-- README.md
-- internal
-  - main.go
-  - core
-    - block.go
-    - blockchain.go
-    - transaction.go
-  - server
-    - server.go
-    - controllers
-      - block.go
-      - transaction.go
-  - utility
-    - hash.go
+simchain/
+├── cmd/
+│   └── simchain/
+│       └── main.go          # Wires deps
+├── internal/
+│   ├── domain/              # Pure core
+│   │   ├── block.go
+│   │   ├── blockchain.go
+│   │   └── transaction.go
+│   ├── blockchain/          # Implements domain interfaces
+│   │   ├── blockchain.go
+│   │   ├── block_validator.go
+│   │   └── tx_pool.go       
+│   ├── p2p/                 # Network layer: P2P gossip, discovery
+│   │   ├── node.go
+│   │   ├── protocol.go
+│   │   └── broadcaster.go
+│   ├── api/                 # HTTP/REST layer
+│   │   ├── server.go
+│   │   ├── handlers/ 
+│   │   │   ├── block.go
+│   │   │   └── transaction.go
+│   └── utils/
+│       └── hash.go
+├── go.mod
+├── go.sum
+└── README.md
 ```
 
 ## 🚀 REST APIs

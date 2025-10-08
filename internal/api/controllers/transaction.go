@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"github.com/alireza12prom/SimpleChain/internal/core"
+	"github.com/alireza12prom/SimpleChain/internal/domain"
 	"github.com/gin-gonic/gin"
 )
 
 type TransactionController struct {
-	Blockchain *core.Blockchain
+	Blockchain *domain.Blockchain
 }
 
 func (tc *TransactionController) Create(c *gin.Context) {
@@ -15,7 +15,7 @@ func (tc *TransactionController) Create(c *gin.Context) {
 		c.JSON(400, `invalid input.`)
 	}
 
-	trx := core.NewTransaction(body.From, body.To, body.Amount)
+	trx := domain.NewTransaction(body.From, body.To, body.Amount)
 	tc.Blockchain.AddTransaction(trx)
 
 	c.JSON(200, gin.H{"msg": "transaction added to the pending pool."})
