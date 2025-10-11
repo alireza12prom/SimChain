@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Run(blockchain *domain.Blockchain) {
+func Run(blockchain domain.IBlockchain) {
 	r := gin.Default()
 
 	{
@@ -29,5 +29,5 @@ func Run(blockchain *domain.Blockchain) {
 		g.POST("/mine", controller.Mine)
 	}
 
-	r.Run()
+	r.Run(":8081")
 }
