@@ -26,4 +26,8 @@ func (b *Block) AddTransaction(trx *Transaction) {
 	b.Transactions = append(b.Transactions, trx)
 }
 
+func (b *Block) Size() int {
+	return len(b.Transactions)
+}
+
 var _ IBlock = (*Block)(nil)

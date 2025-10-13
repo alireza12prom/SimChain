@@ -1,6 +1,7 @@
 package blockchain
 
 import (
+	"slices"
 	"sync"
 
 	"github.com/alireza12prom/SimpleChain/internal/domain"
@@ -28,15 +29,12 @@ func (tp *TransactionPool) GetTransactions() []*domain.Transaction {
 	return append([]*domain.Transaction{}, tp.pool...)
 }
 
-func (tp *TransactionPool) RemoveTransaction(tx *domain.Transaction) error {
+func (tp *TransactionPool) RemoveTransaction(txs ...*domain.Transaction) error {
 	tp.mu.Lock()
 	defer tp.mu.Unlock()
-	for i, t := range tp.pool {
-		if t == tx {
-			tp.pool = append(tp.pool[:i], tp.pool[i+1:]...)
-			return nil
-		}
-	}
+	tp.pool = slices.DeleteFunc(tp.pool, func(t *domain.Transaction) bool {
+		return slices.Contains(txs, t)
+	})
 	return nil
 }
 

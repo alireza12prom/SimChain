@@ -26,7 +26,7 @@ func Run(blockchain domain.IBlockchain) {
 
 		g := r.Group("/block")
 		g.GET("/history", controller.GetHistory)
-		g.POST("/mine", controller.Mine)
+		g.POST("/create", controller.Create)
 	}
 
 	r.Run(":8081")

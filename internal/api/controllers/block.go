@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/alireza12prom/SimpleChain/internal/domain"
 	"github.com/gin-gonic/gin"
 )
@@ -14,14 +16,14 @@ func (bc *BlockController) GetHistory(c *gin.Context) {
 	c.JSON(200, gin.H{"data": history, "count": len(history)})
 }
 
-func (bc *BlockController) Mine(c *gin.Context) {
-	// block, err := bc.Blockchain.()
-	// if err != nil {
-	// 	c.JSON(400, gin.H{"reason": err.Error()})
-	// 	return
-	// }
+func (bc *BlockController) Create(c *gin.Context) {
+	block, err := bc.Blockchain.CreateBlock()
+	if err != nil {
+		c.JSON(400, gin.H{"reason": err.Error()})
+		return
+	}
 
-	// c.JSON(200, gin.H{
-	// 	"msg": fmt.Sprintf("block #%d with %d transactions.", block.Index, block.Size()),
-	// })
+	c.JSON(200, gin.H{
+		"msg": fmt.Sprintf("block #%d with %d transactions.", block.Index, block.Size()),
+	})
 }

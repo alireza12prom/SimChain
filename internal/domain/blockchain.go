@@ -10,7 +10,8 @@ type BlockchainConfig struct {
 }
 
 type IBlockchain interface {
-	AddTransaction(ctx context.Context, tx *Transaction) error
+	AddTransaction(ctx context.Context, from string, to string, amount float64) error
+	CreateBlock() (*Block, error)
 	GetChain() []*Block
 	GetMempool() []*Transaction
 	GetLatestBlock() *Block

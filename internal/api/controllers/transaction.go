@@ -15,12 +15,7 @@ func (tc *TransactionController) Create(c *gin.Context) {
 		c.JSON(400, `invalid input.`)
 	}
 
-	trx := &domain.Transaction{
-		From:   body.From,
-		To:     body.To,
-		Amount: body.Amount,
-	}
-	tc.Blockchain.AddTransaction(c, trx)
+	tc.Blockchain.AddTransaction(c, body.From, body.To, body.Amount)
 
 	c.JSON(200, gin.H{"msg": "transaction added to the pending pool."})
 }
