@@ -3,6 +3,7 @@ package blockchain
 import (
 	"context"
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/alireza12prom/SimpleChain/internal/domain"
@@ -47,7 +48,15 @@ func (bc *Blockchain) CreateBlock() (*domain.Block, error) {
 		PrevHash:     bc.GetLatestBlock().Hash,
 		Nonce:        0,
 	}
-	block.Hash = utils.CalculateBlockHash(block)
+
+	prefix := strings.Repeat("0", bc.config.Difficulty)
+	for {
+		block.Hash = utils.CalculateBlockHash(block)
+		if strings.HasPrefix(block.Hash, prefix) {
+			break
+		}
+		block.IncreaseNonce()
+	}
 
 	bc.blockStore.SaveBlock(context.Background(), block)
 	bc.memPool.RemoveTransaction(txs...)
