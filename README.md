@@ -182,7 +182,7 @@ simchain/
 ---
 
 ## 🧭 Notes and next steps
-- Add basic validation for transactions and blocks
-- Add persistence for the mempool or recovery logic on startup
-- Add P2P networking for multi‑node syncing and block propagation
-- Add unit tests and simple benchmarks for mining difficulty
+
+- [] Add persistence for the mempool
+- [] Add P2P networking for multi‑node syncing
+- [] Add unit tests
