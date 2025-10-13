@@ -183,6 +183,6 @@ simchain/
 
 ## 🧭 Notes and next steps
 
-- [] Add persistence for the mempool
-- [] Add P2P networking for multi‑node syncing
-- [] Add unit tests
+- [ ] Add persistence for the mempool
+- [ ] Add P2P networking for multi‑node syncing
+- [ ] Add unit tests
