@@ -23,7 +23,22 @@ func (tp *TransactionPool) AddTransaction(tx *domain.Transaction) error {
 	return nil
 }
 
-func (tp *TransactionPool) GetTransactions() []*domain.Transaction {
+func (tp *TransactionPool) GetTransactions(n int) []*domain.Transaction {
+	tp.mu.RLock()
+	defer tp.mu.RUnlock()
+
+	txs := make([]*domain.Transaction, 0, n)
+	for i := 0; i < n; i++ {
+		if i >= len(tp.pool) {
+			break
+		}
+		txs = append(txs, tp.pool[i])
+	}
+
+	return txs
+}
+
+func (tp *TransactionPool) GetPool() []*domain.Transaction {
 	tp.mu.RLock()
 	defer tp.mu.RUnlock()
 	return append([]*domain.Transaction{}, tp.pool...)

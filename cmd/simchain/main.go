@@ -13,7 +13,7 @@ func main() {
 
 	blockchainConfig := domain.BlockchainConfig{
 		Difficulty:   4,
-		MaxBlockSize: 100,
+		MaxBlockSize: 10,
 	}
 
 	blockchain := blockchain.NewBlockchain(blockchainConfig, blockStore)

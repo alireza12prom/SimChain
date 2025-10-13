@@ -35,7 +35,7 @@ func NewBlockchain(config domain.BlockchainConfig, blockStore domain.IBlockStore
 }
 
 func (bc *Blockchain) CreateBlock() (*domain.Block, error) {
-	txs := bc.memPool.GetTransactions()
+	txs := bc.memPool.GetTransactions(bc.config.MaxBlockSize)
 
 	if len(txs) == 0 {
 		return nil, errors.New("no transactions to create block")
@@ -80,7 +80,7 @@ func (bc *Blockchain) GetLatestBlock() *domain.Block {
 }
 
 func (bc *Blockchain) GetMempool() []*domain.Transaction {
-	return bc.memPool.GetTransactions()
+	return bc.memPool.GetPool()
 }
 
 func (bc *Blockchain) GetChain() []*domain.Block {
