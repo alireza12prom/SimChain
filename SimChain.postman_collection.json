@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "c82024ab-f768-4bfa-824c-c11b802c5e6e",
+		"name": "SimChain",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24222018"
+	},
+	"item": [
+		{
+			"name": "Create Transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": \"{{$randomFirstName}}\",\r\n    \"to\": \"{{$randomFirstName}}\",\r\n    \"amount\": {{$randomPrice}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/transaction/new",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transaction",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Block",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/block/create",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"block",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Mempool",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/transaction/pending",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transaction",
+						"pending"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Chain History",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/block/history",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"block",
+						"history"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": ""
+		}
+	]
+}
