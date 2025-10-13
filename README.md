@@ -120,15 +120,16 @@ curl -X GET  http://localhost:8081/block/history
 
 ## 🚀 Running
 
-From the repository root:
-```powershell
-go run ./cmd/simchain
+**Build & Run**:
+
+```shell
+make run
 ```
 
-Build a binary:
-```powershell
-go build -o simchain ./cmd/simchain
-./simchain # (or .\simchain.exe on Windows)
+**For Development**:
+
+```shell
+go run ./cmd/simchain
 ```
 
 The server listens on port `8081` by default.
