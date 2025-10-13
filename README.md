@@ -2,7 +2,8 @@
 
 An educational, minimal blockchain implemented in Go. SimChain demonstrates core blockchain concepts end‑to‑end: transactions, a mempool, blocks, persistence, a simple proof‑of‑work miner driven by configurable difficulty, and an HTTP API to interact with the chain.
 
-### 🎯 What you’ll learn
+## 🎯 What you’ll learn
+
 - How blocks and transactions are modeled
 - How a mempool feeds block creation
 - How proof‑of‑work (PoW) mining with leading‑zero difficulty works
@@ -91,9 +92,11 @@ On node startup, `NewBlockchain` checks the store. If no blocks exist, it create
 - **Base URL**: `http://localhost:8081`
 
 ### Endpoints
+
 - `POST /transaction/new`
   - Enqueue a transaction into the mempool.
   - Body:
+
     ```json
     { "from": "alice", "to": "bob", "amount": 1.23 }
     ```
@@ -108,13 +111,7 @@ On node startup, `NewBlockchain` checks the store. If no blocks exist, it create
 - `GET /block/history`
   - Return the full chain as an ordered list of blocks.
 
-#### Example (PowerShell)
-```powershell
-curl -X POST http://localhost:8081/transaction/new -H "Content-Type: application/json" -d '{"from":"alice","to":"bob","amount":2.5}'
-curl -X GET  http://localhost:8081/transaction/pending
-curl -X POST http://localhost:8081/block/create
-curl -X GET  http://localhost:8081/block/history
-```
+**Tip:** A ready-to-use Postman collection is provided—import it for quick API testing and exploration.
 
 ---
 
@@ -135,6 +132,7 @@ go run ./cmd/simchain
 The server listens on port `8081` by default.
 
 ### 💾 Data directory
+
 The BadgerDB data directory is created by the store (see `NewBadgerStore("./.db")`). You can change the path in `cmd/simchain/main.go`.
 
 ---
@@ -142,6 +140,7 @@ The BadgerDB data directory is created by the store (see `NewBadgerStore("./.db"
 ## ⚙️ Configuration
 
 `BlockchainConfig` is wired in `cmd/simchain/main.go`:
+
 - **Difficulty**: number of leading zeros required in the block hash
 - **MaxBlockSize**: future use; can be used to constrain block contents
 
@@ -151,7 +150,7 @@ To make mining faster or slower, adjust `Difficulty` (e.g., 2–4 for quick demo
 
 ## 🗂️ Project layout (actual)
 
-```
+```text
 simchain/
 ├── cmd/
 │   └── simchain/
